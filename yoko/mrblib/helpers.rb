@@ -1,3 +1,17 @@
+# Functions
+
+def point_direction(origin_image, target_image)
+  origin_center_x = origin_image.x + origin_image.width / 2
+  origin_center_y = origin_image.y + origin_image.height / 2
+  target_center_x = target_image.x + target_image.width / 2
+  target_center_y = target_image.y + target_image.height / 2
+
+  - Math.atan2(
+    origin_center_x - target_center_x,
+    origin_center_y - target_center_y
+  ) * 180 / Math::PI
+end
+
 def set_fullscreen(mode)
   Yoko::Window.fullscreen = mode
 end

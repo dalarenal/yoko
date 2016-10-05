@@ -11,6 +11,8 @@ module Yoko
       @texture = SDL2::Video::Texture.new(Yoko.renderer, @surface)
       @angle = options.fetch(:angle, 0.0)
       @scale = options.fetch(:scale, 1)
+      self.center_x = options.fetch(:center_x, 0)
+      self.center_y = options.fetch(:center_y, 0)
       @width = @surface.clip_rect.w * @scale
       @height = @surface.clip_rect.h * @scale
       @rect = SDL2::Rect.new(0, 0, @width, @height)
@@ -33,20 +35,29 @@ module Yoko
       @rect.has_intersection? other_image.rect
     end
 
+    def move(speed, angle)
+      angle = angle * Math::PI / 180
+
+      self.x += speed * Math.cos(angle)
+      self.y += speed * Math.sin(angle)
+    end
+
     def x
-      @rect.x
+      @x ||= @rect.x
     end
 
     def x=(new_x)
-      @rect.x = new_x
+      @x = new_x
+      @rect.x = x.to_i
     end
 
     def y
-      @rect.y
+      @y ||= @rect.y
     end
 
     def y=(new_y)
-      @rect.y = new_y
+      @y = new_y
+      @rect.y = y.to_i
     end
 
     def width
