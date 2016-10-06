@@ -46,6 +46,26 @@ module Yoko
       end
     end
 
+    def animate_infinite(attribute, change, options={}, &block)
+      easings[attribute] = Fiber.new do
+        loop do
+          send("#{attribute}=", send(attribute) + change)
+
+          Fiber.yield
+        end
+      end
+    end
+
+    def follow(attribute, instance)
+      easings[attribute] = Fiber.new do
+        loop do
+          send("#{attribute}=", instance.send(attribute))
+
+          Fiber.yield
+        end
+      end
+    end
+
     def animating?(attribute=nil)
       attribute ? easings.has_key?(attribute) : !easings.empty?
     end

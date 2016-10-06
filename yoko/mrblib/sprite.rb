@@ -20,6 +20,13 @@ module Yoko
       self.alpha = options[:alpha] if options[:alpha]
     end
 
+    def visible?(window)
+      x >= 0 - width &&
+        x <= window.width + width &&
+        y >= 0 - height &&
+        y <= window.height + height
+    end
+
     def draw
       update_easings
 
@@ -35,11 +42,11 @@ module Yoko
       @rect.has_intersection? other_image.rect
     end
 
-    def move(speed, angle)
-      angle = angle * Math::PI / 180
+    def move(speed, direction)
+      direction *= Math::PI / 180
 
-      self.x += speed * Math.cos(angle)
-      self.y += speed * Math.sin(angle)
+      self.x += speed * Math.cos(direction)
+      self.y += speed * Math.sin(direction)
     end
 
     def x
