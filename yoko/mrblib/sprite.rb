@@ -20,18 +20,18 @@ module Yoko
       @scale = options.fetch(:scale, 1)
       @scale_x = options.fetch(:scale_x, 1)
       @scale_y = options.fetch(:scale_y, 1)
-      self.center_x = options.fetch(:center_x, 0)
-      self.center_y = options.fetch(:center_y, 0)
+      @center_x = options.fetch(:center_x, 0)
+      @center_y = options.fetch(:center_y, 0)
       @width = @surface.clip_rect.w * @scale
       @height = @surface.clip_rect.h * @scale
       @rect = SDL2::Rect.new(0, 0, @width, @height)
       @destroyed = false
 
-      self.x = options[:x] if options[:x]
-      self.y = options[:y] if options[:y]
-      self.scale_x = options[:scale_x] if options[:scale_x]
-      self.scale_y = options[:scale_y] if options[:scale_y]
-      self.alpha = options[:alpha] if options[:alpha]
+      @x = options[:x] if options[:x]
+      @y = options[:y] if options[:y]
+      @scale_x = options[:scale_x] if options[:scale_x]
+      @scale_y = options[:scale_y] if options[:scale_y]
+      @alpha = options[:alpha] if options[:alpha]
     end
 
     def draw
@@ -54,13 +54,6 @@ module Yoko
 
     def collides_with?(other_image)
       @rect.has_intersection? other_image.rect
-    end
-
-    def move(speed, direction)
-      direction *= Math::PI / 180
-
-      self.x += speed * Math.cos(direction)
-      self.y += speed * Math.sin(direction)
     end
 
     def x
